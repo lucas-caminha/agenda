@@ -1,7 +1,9 @@
 package br.com.agenda.service;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +25,16 @@ public class AnotacaoService {
 		List<AnotacaoEntity> anotacoes = anotacaoRepository.findAll();
 		return Arrays.asList(modelMapper.map(anotacoes, AnotacaoDTO[].class));		
 	}
+
+	public AnotacaoDTO save(AnotacaoDTO dto) {
+		Optional<AnotacaoEntity> find = anotacaoRepository.findByTitulo(dto.getTitulo());
+		if (find.isPresent()) {
+			throw new RuntimeException();
+		}
+		dto.setData(LocalDate.now());
+		AnotacaoEntity salvo = anotacaoRepository.save(dto.toEntity());	
+		return salvo.toDTO();
+	}
+	
 	
 }

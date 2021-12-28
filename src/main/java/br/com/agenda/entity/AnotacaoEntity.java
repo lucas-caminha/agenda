@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import br.com.agenda.dto.AnotacaoDTO;
+
 @Entity(name = "anotacao")
 @Table(name = "anotacao")
 public class AnotacaoEntity {
@@ -62,5 +64,15 @@ public class AnotacaoEntity {
 	public String toString() {
 		return "Anotacao [id=" + id + ", titulo=" + titulo + ", texto=" + texto + ", data=" + data + "]";
 	}
+
+	public AnotacaoDTO toDTO() {
+		AnotacaoDTO dto = new AnotacaoDTO();
+		dto.setTitulo(this.titulo);
+		dto.setTexto(this.texto);
+		dto.setData(this.data);
+		return dto;
+	}
+	
+	
 	
 }

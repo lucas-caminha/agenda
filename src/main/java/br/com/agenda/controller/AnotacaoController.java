@@ -17,9 +17,14 @@ public class AnotacaoController {
 	@Autowired
 	private AnotacaoService anotacaoService;
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/all")
+	@RequestMapping(method = RequestMethod.GET, value = "/listar")
 	public List<AnotacaoDTO> getAll() {
 		return anotacaoService.getAll();
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/salvar")
+	public AnotacaoDTO save(AnotacaoDTO dto) {	
+		return anotacaoService.save(dto);
 	}
 	
 }
