@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.agenda.entity.AnotacaoEntity;
 
 public class AnotacaoDTO {
@@ -12,6 +14,8 @@ public class AnotacaoDTO {
 	private String titulo;
 	private String texto;
 	private LocalDate data;
+	@JsonIgnore
+	private Integer id;
 	
 	public String getTitulo() {
 		return titulo;
@@ -30,6 +34,12 @@ public class AnotacaoDTO {
 	}
 	public void setData(LocalDate data) {
 		this.data = data;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 	@Override

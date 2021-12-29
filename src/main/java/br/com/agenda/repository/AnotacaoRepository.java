@@ -16,4 +16,8 @@ public interface AnotacaoRepository extends JpaRepository<AnotacaoEntity, Intege
 	List<AnotacaoEntity> findAllByOrderByIdAsc();
 	
 	Optional<AnotacaoEntity> findByTitulo(String titulo);
+
+	Optional<AnotacaoEntity> findByIdAndTituloAndTexto(Integer id, String titulo, String texto);
+
+	
 }

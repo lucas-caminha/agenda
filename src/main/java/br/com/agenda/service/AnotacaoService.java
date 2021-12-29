@@ -35,6 +35,20 @@ public class AnotacaoService {
 		AnotacaoEntity salvo = anotacaoRepository.save(dto.toEntity());	
 		return salvo.toDTO();
 	}
+
+	public AnotacaoDTO update(AnotacaoDTO dto) {
+		Optional<AnotacaoEntity> find = 
+				anotacaoRepository.findByIdAndTituloAndTexto(dto.getId(), dto.getTitulo(), dto.getTexto());
+		
+		if (find.isPresent()) {
+			throw new RuntimeException();
+		}
+		dto.setData(LocalDate.now());
+		AnotacaoEntity updated = anotacaoRepository.save(dto.toEntity());
+		return updated.toDTO();
+	}
+
+
 	
 	
 }

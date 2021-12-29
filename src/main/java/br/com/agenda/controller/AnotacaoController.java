@@ -27,4 +27,9 @@ public class AnotacaoController {
 		return anotacaoService.save(dto);
 	}
 	
+	@RequestMapping(method = RequestMethod.PUT, value = "/atualizar")
+	public AnotacaoDTO update(AnotacaoDTO dto) {
+		return anotacaoService.update(dto);
+	}
+	
 }
