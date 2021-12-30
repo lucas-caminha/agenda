@@ -43,10 +43,33 @@ public class AnotacaoService {
 		if (find.isPresent()) {
 			throw new RuntimeException();
 		}
-		dto.setData(LocalDate.now());
-		AnotacaoEntity updated = anotacaoRepository.save(dto.toEntity());
-		return updated.toDTO();
+		
+		Optional<AnotacaoEntity> findById = anotacaoRepository.findById(dto.getId());
+		
+		if (findById.isPresent()) {
+			findById.get().setTitulo(dto.getTitulo());
+			findById.get().setTexto(dto.getTexto());
+			findById.get().setData(LocalDate.now());
+			AnotacaoEntity updated = anotacaoRepository.save(findById.get());
+			return updated.toDTO();
+		}
+		
+		throw new RuntimeException();
 	}
+
+	public AnotacaoDTO delete(Integer id) {
+		
+		Optional<AnotacaoEntity> find = anotacaoRepository.findById(id);
+		
+		if (find.isPresent()) {
+			anotacaoRepository.delete(find.get());
+			return find.get().toDTO();
+		}
+		
+		throw new RuntimeException();
+	}
+	
+	
 
 
 	
