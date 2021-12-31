@@ -19,23 +19,36 @@ public class AnotacaoController {
 	@Autowired
 	private AnotacaoService anotacaoService;
 	
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/listar")
-	public List<AnotacaoDTO> getAll() {
-		return anotacaoService.getAll();
+	public ResponseEntity<List<AnotacaoDTO>> getAll() {	
+		return ResponseEntity.ok(anotacaoService.getAll());
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/salvar")
-	public AnotacaoDTO save(AnotacaoDTO dto) {	
-		return anotacaoService.save(dto);
+	public ResponseEntity<AnotacaoDTO> save(AnotacaoDTO dto) {	
+		AnotacaoDTO saved = anotacaoService.save(dto);
+		if (saved != null) {
+			return ResponseEntity.ok(saved);
+		}		
+		return ResponseEntity.badRequest().build();
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT, value = "/atualizar")
-	public AnotacaoDTO update(AnotacaoDTO dto) {
-		return anotacaoService.update(dto);
+	public ResponseEntity<AnotacaoDTO> update(AnotacaoDTO dto) {
+		AnotacaoDTO updated = anotacaoService.update(dto);
+		if (updated != null) {
+			return ResponseEntity.ok(updated);
+		}
+		return ResponseEntity.badRequest().build();
 	}
 	
 	@RequestMapping(method = RequestMethod.DELETE, value = "/deletar/{id}")
-	public ResponseEntity<AnotacaoDTO> delete(@PathVariable(name = "id") Integer id) {	
-		return ResponseEntity.ok(anotacaoService.delete(id));
+	public ResponseEntity<AnotacaoDTO> delete(@PathVariable(name = "id") Integer id) {			
+		AnotacaoDTO deleted = anotacaoService.delete(id);
+		if (deleted != null) {
+			return ResponseEntity.ok(deleted);
+		}	
+		return ResponseEntity.noContent().build();
 	}
 }

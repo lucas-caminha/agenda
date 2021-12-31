@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import br.com.agenda.dto.AnotacaoDTO;
 import br.com.agenda.entity.AnotacaoEntity;
+import br.com.agenda.exceptions.BusinessException;
 import br.com.agenda.repository.AnotacaoRepository;
+import br.com.agenda.util.MessageUtil;
 
 @Service
 public class AnotacaoService {
@@ -29,7 +31,7 @@ public class AnotacaoService {
 	public AnotacaoDTO save(AnotacaoDTO dto) {
 		Optional<AnotacaoEntity> find = anotacaoRepository.findByTitulo(dto.getTitulo());
 		if (find.isPresent()) {
-			throw new RuntimeException();
+			throw new BusinessException(MessageUtil.FAIL_SAVE + MessageUtil.TITULO_EXISTENTE);
 		}
 		dto.setData(LocalDate.now());
 		AnotacaoEntity salvo = anotacaoRepository.save(dto.toEntity());	
@@ -37,16 +39,15 @@ public class AnotacaoService {
 	}
 
 	public AnotacaoDTO update(AnotacaoDTO dto) {
-		Optional<AnotacaoEntity> find = 
-				anotacaoRepository.findByIdAndTituloAndTexto(dto.getId(), dto.getTitulo(), dto.getTexto());
-		
-		if (find.isPresent()) {
-			throw new RuntimeException();
-		}
 		
 		Optional<AnotacaoEntity> findById = anotacaoRepository.findById(dto.getId());
 		
-		if (findById.isPresent()) {
+		if(findById.isPresent()) {
+			if (dto.getTitulo().equals(findById.get().getTitulo()) && 
+				dto.getTexto().equals(findById.get().getTexto())) {
+				throw new BusinessException(MessageUtil.FAIL_UPDATE + MessageUtil.TITULO_TEXTO_NAO_ALTERADOS);
+			}
+			
 			findById.get().setTitulo(dto.getTitulo());
 			findById.get().setTexto(dto.getTexto());
 			findById.get().setData(LocalDate.now());
@@ -54,7 +55,7 @@ public class AnotacaoService {
 			return updated.toDTO();
 		}
 		
-		throw new RuntimeException();
+		throw new BusinessException(MessageUtil.FAIL_UPDATE);
 	}
 
 	public AnotacaoDTO delete(Integer id) {
@@ -66,7 +67,7 @@ public class AnotacaoService {
 			return find.get().toDTO();
 		}
 		
-		throw new RuntimeException();
+		throw new BusinessException(MessageUtil.FAIL_DELETE);
 	}
 	
 	
