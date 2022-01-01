@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import br.com.agenda.dto.AnotacaoDTO;
 import br.com.agenda.entity.AnotacaoEntity;
 import br.com.agenda.exceptions.BusinessException;
+import br.com.agenda.exceptions.NotFoundException;
 import br.com.agenda.repository.AnotacaoRepository;
 import br.com.agenda.util.MessageUtil;
 
@@ -55,7 +56,7 @@ public class AnotacaoService {
 			return updated.toDTO();
 		}
 		
-		throw new BusinessException(MessageUtil.FAIL_UPDATE);
+		throw new NotFoundException(MessageUtil.ANOTACAO_NAO_ENCONTRADA);
 	}
 
 	public AnotacaoDTO delete(Integer id) {
@@ -67,7 +68,7 @@ public class AnotacaoService {
 			return find.get().toDTO();
 		}
 		
-		throw new BusinessException(MessageUtil.FAIL_DELETE);
+		throw new NotFoundException(MessageUtil.ANOTACAO_NAO_ENCONTRADA);
 	}
 	
 	

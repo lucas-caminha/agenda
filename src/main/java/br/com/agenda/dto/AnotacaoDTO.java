@@ -17,6 +17,23 @@ public class AnotacaoDTO {
 	@JsonIgnore
 	private Integer id;
 	
+	public AnotacaoDTO() {
+	}
+	
+	public AnotacaoDTO(@Size(max = 50) String titulo, String texto, LocalDate data) {
+		this.titulo = titulo;
+		this.texto = texto;
+		this.data = data;
+	}
+	
+	public AnotacaoDTO(Integer id, @Size(max = 50) String titulo, String texto, LocalDate data) {
+		super();
+		this.titulo = titulo;
+		this.texto = texto;
+		this.data = data;
+		this.id = id;
+	}
+
 	public String getTitulo() {
 		return titulo;
 	}
