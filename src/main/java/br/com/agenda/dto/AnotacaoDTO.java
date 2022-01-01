@@ -4,8 +4,6 @@ import java.time.LocalDate;
 
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import br.com.agenda.entity.AnotacaoEntity;
 
 public class AnotacaoDTO {
@@ -14,10 +12,11 @@ public class AnotacaoDTO {
 	private String titulo;
 	private String texto;
 	private LocalDate data;
-	@JsonIgnore
 	private Integer id;
 	
-	public AnotacaoDTO() {
+	public AnotacaoDTO(@Size(max = 50) String titulo, String texto) {
+		this.titulo = titulo;
+		this.texto = texto;
 	}
 	
 	public AnotacaoDTO(@Size(max = 50) String titulo, String texto, LocalDate data) {
@@ -27,11 +26,13 @@ public class AnotacaoDTO {
 	}
 	
 	public AnotacaoDTO(Integer id, @Size(max = 50) String titulo, String texto, LocalDate data) {
-		super();
 		this.titulo = titulo;
 		this.texto = texto;
 		this.data = data;
 		this.id = id;
+	}
+	
+	public AnotacaoDTO() {
 	}
 
 	public String getTitulo() {

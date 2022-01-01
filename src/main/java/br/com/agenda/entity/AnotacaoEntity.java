@@ -68,6 +68,7 @@ public class AnotacaoEntity {
 
 	public AnotacaoDTO toDTO() {
 		AnotacaoDTO dto = new AnotacaoDTO();
+		dto.setId(this.id);
 		dto.setTitulo(this.titulo);
 		dto.setTexto(this.texto);
 		dto.setData(this.data);

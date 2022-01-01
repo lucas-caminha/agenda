@@ -3,8 +3,10 @@ package br.com.agenda.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +16,7 @@ import br.com.agenda.service.AnotacaoService;
 
 @RestController
 @RequestMapping(value = "/anotacoes")
-public class AnotacaoController {
+public class AnotacaoRestController {
 
 	@Autowired
 	private AnotacaoService anotacaoService;
@@ -26,16 +28,16 @@ public class AnotacaoController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/salvar")
-	public ResponseEntity<AnotacaoDTO> save(AnotacaoDTO dto) {	
+	public ResponseEntity<AnotacaoDTO> save(@RequestBody AnotacaoDTO dto) {	
 		AnotacaoDTO saved = anotacaoService.save(dto);
-		if (saved != null) {
-			return ResponseEntity.ok(saved);
+		if (saved.getId() != null) {
+			return ResponseEntity.status(HttpStatus.CREATED).body(saved);
 		}		
-		return ResponseEntity.badRequest().build();
+		return ResponseEntity.status(HttpStatus.CONFLICT).build();
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT, value = "/atualizar")
-	public ResponseEntity<AnotacaoDTO> update(AnotacaoDTO dto) {
+	public ResponseEntity<AnotacaoDTO> update(@RequestBody AnotacaoDTO dto) {
 		AnotacaoDTO updated = anotacaoService.update(dto);
 		if (updated != null) {
 			return ResponseEntity.ok(updated);
