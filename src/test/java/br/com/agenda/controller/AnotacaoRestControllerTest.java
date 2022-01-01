@@ -1,6 +1,7 @@
 package br.com.agenda.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,6 +19,11 @@ import com.google.gson.Gson;
 
 import br.com.agenda.dto.AnotacaoDTO;
 
+/**
+ * Renomear o arquivo na pasta src/main/resources/ para data.sql e 
+ * alterar o application.proprerties para configuração do banco H2.
+ * @author lucas
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 class AnotacaoRestControllerTest {
