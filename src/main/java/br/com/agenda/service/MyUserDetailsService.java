@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.agenda.dto.UserDTO;
 import br.com.agenda.entity.MyUserPrincipal;
 import br.com.agenda.entity.User;
+import br.com.agenda.exceptions.BusinessException;
 import br.com.agenda.repository.UserRepository;
 
 @Service
@@ -17,6 +20,8 @@ public class MyUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) {
@@ -30,9 +35,35 @@ public class MyUserDetailsService implements UserDetailsService {
 		throw new UsernameNotFoundException(username);
 	}
 	
-	public UserDetails registra(String username, String password) {
-		User saved = userRepository.save(new User(password, password));
-		return new MyUserPrincipal(saved);
+	public UserDetails loadUserByUsernameAndPassword(UserDTO user) {
+		
+		String encodedPassword = passwordEncoder.encode(user.getPassword());
+		System.out.println(encodedPassword);
+		Optional<User> find = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+		
+		if (find.isPresent()) {
+			return new MyUserPrincipal(find.get());
+		}
+	
+		throw new UsernameNotFoundException(user.getUsername());
+	}
+	
+	public UserDetails registerNewUserAccount(UserDTO user) {
+			
+		Optional<User> find = userRepository.findByUsername(user.getUsername());
+			
+		if (find.isEmpty()) {
+			User entity = new User();
+			entity.setUsername(user.getUsername());
+			entity.setPassword(passwordEncoder.encode(user.getPassword()));
+			
+			User saved = userRepository.save(entity);
+			return new MyUserPrincipal(saved);
+		}
+		
+		throw new BusinessException("IMPLEMENTAR...");
 	}
 
+	
+	
 }
