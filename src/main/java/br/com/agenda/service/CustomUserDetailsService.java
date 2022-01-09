@@ -16,7 +16,7 @@ import br.com.agenda.exceptions.BusinessException;
 import br.com.agenda.repository.UserRepository;
 
 @Service
-public class MyUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
@@ -34,20 +34,7 @@ public class MyUserDetailsService implements UserDetailsService {
 			
 		throw new UsernameNotFoundException(username);
 	}
-	
-	public UserDetails loadUserByUsernameAndPassword(UserDTO user) {
 		
-		String encodedPassword = passwordEncoder.encode(user.getPassword());
-		System.out.println(encodedPassword);
-		Optional<User> find = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
-		
-		if (find.isPresent()) {
-			return new MyUserPrincipal(find.get());
-		}
-	
-		throw new UsernameNotFoundException(user.getUsername());
-	}
-	
 	public UserDetails registerNewUserAccount(UserDTO user) {
 			
 		Optional<User> find = userRepository.findByUsername(user.getUsername());

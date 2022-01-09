@@ -10,20 +10,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.agenda.dto.UserDTO;
-import br.com.agenda.service.MyUserDetailsService;
+import br.com.agenda.service.CustomUserDetailsService;
 
 @RestController
 @RequestMapping(value = "/user")
 public class UserRestController {
 	
 	@Autowired
-	private MyUserDetailsService userService;
+	private CustomUserDetailsService userService;
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/login")
-	public ResponseEntity<UserDetails> login(@RequestBody UserDTO user) {	
-		
-		UserDetails userAuth = userService.loadUserByUsernameAndPassword(user);
-		
+	public ResponseEntity<UserDetails> login(@RequestBody UserDTO user) {		
+		UserDetails userAuth = userService.loadUserByUsername(user.getUsername());		
 		return ResponseEntity.status(HttpStatus.OK).body(userAuth);
 	}
 	
