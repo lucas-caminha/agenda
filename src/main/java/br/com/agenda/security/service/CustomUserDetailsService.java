@@ -1,4 +1,4 @@
-package br.com.agenda.service;
+package br.com.agenda.security.service;
 
 import java.util.Optional;
 
@@ -24,14 +24,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 	private PasswordEncoder passwordEncoder;
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) {
-		
-		Optional<User> findByUsername = userRepository.findByUsername(username);
-		
+	public UserDetails loadUserByUsername(String username) {		
+		Optional<User> findByUsername = userRepository.findByUsername(username);		
 		if (findByUsername.isPresent()) {
 			return new MyUserPrincipal(findByUsername.get());
-		}
-			
+		}		
 		throw new UsernameNotFoundException(username);
 	}
 		

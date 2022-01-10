@@ -1,10 +1,15 @@
 package br.com.agenda.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class User {
@@ -15,6 +20,9 @@ public class User {
 	@Column(nullable = false, unique = true)
 	private String username;
 	private String password;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<Perfil> perfis = new ArrayList<Perfil>();
 	
 	public User(String username, String password) {
 		this.username = username;
@@ -42,7 +50,11 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
+	public List<Perfil> getPerfis() {
+		return perfis;
+	}
+	public void setPerfis(List<Perfil> perfis) {
+		this.perfis = perfis;
+	}
 	
 }

@@ -3,6 +3,8 @@ package br.com.agenda.dto;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 public class UserDTO {
 	
 	@NotNull
@@ -32,6 +34,8 @@ public class UserDTO {
 		this.password = password;
 	}
 	
-	
+	public UsernamePasswordAuthenticationToken toToken() {
+		return new UsernamePasswordAuthenticationToken(this.username, this.password);
+	}
 
 }

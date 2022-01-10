@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.agenda.dto.UserDTO;
-import br.com.agenda.service.CustomUserDetailsService;
+import br.com.agenda.security.service.CustomUserDetailsService;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -19,11 +19,13 @@ public class UserRestController {
 	@Autowired
 	private CustomUserDetailsService userService;
 	
+	/**
 	@RequestMapping(method = RequestMethod.GET, value = "/login")
 	public ResponseEntity<UserDetails> login(@RequestBody UserDTO user) {		
 		UserDetails userAuth = userService.loadUserByUsername(user.getUsername());		
 		return ResponseEntity.status(HttpStatus.OK).body(userAuth);
 	}
+	**/
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/registrar")
 	public ResponseEntity<UserDetails> register(@RequestBody UserDTO user){
