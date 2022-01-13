@@ -12,8 +12,9 @@ import org.springframework.stereotype.Service;
 import br.com.agenda.dto.UserDTO;
 import br.com.agenda.entity.MyUserPrincipal;
 import br.com.agenda.entity.User;
-import br.com.agenda.exceptions.BusinessException;
+import br.com.agenda.exceptions.UserExistingException;
 import br.com.agenda.repository.UserRepository;
+import br.com.agenda.util.MessageUtil;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -45,7 +46,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 			return new MyUserPrincipal(saved);
 		}
 		
-		throw new BusinessException("IMPLEMENTAR...");
+		throw new UserExistingException(MessageUtil.USUARIO_EXISTENTE);
 	}
 
 	

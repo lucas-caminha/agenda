@@ -11,4 +11,6 @@ public class MessageUtil {
 	
 	public final static String ANOTACAO_NAO_ENCONTRADA = "Anotacao não encontrada.";
 	
+	public final static String USUARIO_EXISTENTE = "Usuário já existente.";
+	
 }

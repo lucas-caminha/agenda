@@ -19,14 +19,6 @@ public class UserRestController {
 	@Autowired
 	private CustomUserDetailsService userService;
 	
-	/**
-	@RequestMapping(method = RequestMethod.GET, value = "/login")
-	public ResponseEntity<UserDetails> login(@RequestBody UserDTO user) {		
-		UserDetails userAuth = userService.loadUserByUsername(user.getUsername());		
-		return ResponseEntity.status(HttpStatus.OK).body(userAuth);
-	}
-	**/
-	
 	@RequestMapping(method = RequestMethod.POST, value = "/registrar")
 	public ResponseEntity<UserDetails> register(@RequestBody UserDTO user){
 		UserDetails registred = userService.registerNewUserAccount(user);
@@ -36,6 +28,4 @@ public class UserRestController {
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
 	}
 	
-
-
 }
