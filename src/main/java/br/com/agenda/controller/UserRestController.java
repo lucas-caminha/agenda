@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.agenda.dto.UserDTO;
+import br.com.agenda.exceptions.UserExistingException;
 import br.com.agenda.security.service.CustomUserDetailsService;
 
 @RestController
@@ -21,11 +22,15 @@ public class UserRestController {
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/registrar")
 	public ResponseEntity<UserDetails> register(@RequestBody UserDTO user){
-		UserDetails registred = userService.registerNewUserAccount(user);
-		if (registred != null) {
-			return ResponseEntity.status(HttpStatus.CREATED).body(registred);
+		try {
+			UserDetails registred = userService.registerNewUserAccount(user);
+			if (registred != null) {
+				return ResponseEntity.status(HttpStatus.CREATED).body(registred);
+			}
+		} catch (UserExistingException e) {
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
 		}
-		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+		return null;
 	}
 	
 }

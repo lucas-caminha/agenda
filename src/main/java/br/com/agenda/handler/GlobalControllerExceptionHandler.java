@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import br.com.agenda.exceptions.BusinessException;
 import br.com.agenda.exceptions.NotFoundException;
+import br.com.agenda.exceptions.UserExistingException;
 
 @ControllerAdvice
 public class GlobalControllerExceptionHandler extends ResponseEntityExceptionHandler {
@@ -25,6 +26,13 @@ public class GlobalControllerExceptionHandler extends ResponseEntityExceptionHan
 	@ExceptionHandler(NotFoundException.class)
 	@ResponseBody
 	public ResponseEntity<ErrorInfo> notFoundExceptionHandler(HttpServletRequest req, NotFoundException e) {
+		ErrorInfo errorInfo = new ErrorInfo(req.getRequestURL().toString(), e.getMessage());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorInfo);
+	}
+	
+	@ExceptionHandler(UserExistingException.class)
+	@ResponseBody
+	public ResponseEntity<ErrorInfo> userExistingExceptionHandler(HttpServletRequest req, UserExistingException e) {
 		ErrorInfo errorInfo = new ErrorInfo(req.getRequestURL().toString(), e.getMessage());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorInfo);
 	}

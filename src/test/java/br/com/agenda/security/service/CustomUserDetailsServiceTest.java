@@ -28,7 +28,7 @@ class CustomUserDetailsServiceTest {
 	}
 	
 	@Test
-	@Rollback
+	@Rollback(value = true)
 	void deveRetornarMyUserPrincipalAoTentarRegistrarUmUsuario() {
 		UserDTO userDTO = new UserDTO("teste", "teste");
 		assertEquals(MyUserPrincipal.class, userDetailsService.registerNewUserAccount(userDTO).getClass());
@@ -41,7 +41,7 @@ class CustomUserDetailsServiceTest {
 	}
 	
 	@Test
-	@Rollback
+	@Rollback(value = true)
 	void deveRetornarMyUserPrincipalAoLogarComCredenciaisExistentes() {
 		UserDTO userDTO = new UserDTO("admin", "admin");
 		assertEquals(MyUserPrincipal.class, userDetailsService.loadUserByUsername(userDTO.getUsername()).getClass());
